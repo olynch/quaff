@@ -1,0 +1,2 @@
+%{"cecho": {:git, "https://github.com/mazenharake/cecho.git", "7a0042b930ba64a1d3e496bd29a27ff0b356435f", [tag: "0.5.1"]},
+  "dep_from_git": {:git, "https://github.com/mazenharake/cecho.git", "7a0042b930ba64a1d3e496bd29a27ff0b356435f", [tag: "0.5.1"]}}
