@@ -1,15 +1,17 @@
-defmodule QuaffClient do
+defmodule Quaff.Client do
   @moduledoc """
   The client for quaff. Handles keyboard input and ncurses output
   """
+
+  alias Quaff.Player, as: Player
   
   def runclient do
     :cecho.cbreak()
     :cecho.noecho()
     :cecho.refresh()
     :cecho.curs_set(0)
-    spawn_link(QuaffClient, :keyboard_events, [self()])
-    players = GenServer.call({QuaffServer, :server@thinkingpad}, {:init, 5, 5})
+    spawn_link(__MODULE__, :keyboard_events, [self()])
+    players = GenServer.call({Server, :server@thinkingpad}, {:init, 5, 5})
     clientloop(players)
   end
 
@@ -21,7 +23,7 @@ defmodule QuaffClient do
 
   def clientloop(players) do
     :cecho.erase()
-    for %QuaffServer.Player{x: x, y: y} <- players do
+    for %Player{x: x, y: y} <- players do
       :cecho.mvaddch(y, x, ?@)
     end
     :cecho.refresh()
@@ -35,10 +37,10 @@ defmodule QuaffClient do
               ?k -> :up
               ?l -> :right
             end
-            GenServer.call({QuaffServer, :server@thinkingpad}, {:move, dir})
+            GenServer.call({Server, :server@thinkingpad}, {:move, dir})
             clientloop(players)
           c == ?q ->
-            GenServer.call({QuaffServer, :server@thinkingpad}, :drop)
+            GenServer.call({Server, :server@thinkingpad}, :drop)
             :ok
           true ->
             clientloop(players)

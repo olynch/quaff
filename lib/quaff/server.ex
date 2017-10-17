@@ -1,16 +1,18 @@
-defmodule QuaffServer do
+defmodule Quaff.Server do
   @moduledoc """
   The server for quaff. Does everything except for user interaction
   """
 
   use GenServer
+  alias Quaff.Player, as: Player
+  alias Quaff.QMap, as: QMap
 
-  defmodule QuaffState do
-    defstruct players: %{}, xmax: 100, ymax: 100
+  defmodule Tile do
+    defstruct seethrough: true, passable: true, char: ?.
   end
 
-  defmodule Player do
-    defstruct x: 0, y: 0
+  defmodule State do
+    defstruct players: %{}, map: QMap.new(List.duplicate(%Tile{}, 100*100), 100,100)
   end
 
   def broadcast(state) do
@@ -30,7 +32,7 @@ defmodule QuaffServer do
   end
 
   def start_link(xmax, ymax) do
-    GenServer.start_link(__MODULE__, %QuaffState{xmax: xmax, ymax: ymax}, name: __MODULE__)
+    GenServer.start_link(__MODULE__, %State{map: QMap.new(List.duplicate(%Tile{}, xmax*ymax), xmax, ymax)}, name: __MODULE__)
   end
 
   def init(x,y) do
@@ -50,19 +52,19 @@ defmodule QuaffServer do
   end
 
   def handle_call({:init, x, y}, {from, _}, state) do
-    new_state = %QuaffState{state | players: Map.put(state.players, from, %Player{x: x, y: y})}
-    spawn(QuaffServer, :broadcast, [new_state])
+    new_state = %State{state | players: Map.put(state.players, from, %Player{x: x, y: y})}
+    spawn(__MODULE__, :broadcast, [new_state])
     {:reply, Map.values(new_state.players), new_state}
   end
 
   def handle_call(:drop, {from, _}, state) do
-    new_state = %QuaffState{state | players: Map.delete(state.players, from)}
-    spawn(QuaffServer, :broadcast, [new_state])
+    new_state = %State{state | players: Map.delete(state.players, from)}
+    spawn(__MODULE__, :broadcast, [new_state])
     {:reply, :ok, new_state}
   end
 
   def handle_call({:move, direction}, {from, _}, state) do
-    new_state = %QuaffState{state | players: Map.update(state.players, from, %Player{}, &(move(&1, direction, state.xmax, state.ymax)))}
+    new_state = %State{state | players: Map.update(state.players, from, %Player{}, &(move(&1, direction, state.xmax, state.ymax)))}
     spawn(QuaffServer, :broadcast, [new_state])
     {:reply, :ok, new_state}
   end
