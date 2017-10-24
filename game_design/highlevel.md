@@ -36,24 +36,30 @@
 
 #Sample Player Stats
 
-#"Marcus Marcy-Marc"
+#"Marcus Marcy-Marc" the human
 
-#Str: d4
+#Str: d6
 
-#Dex: d10
+#Dex: d6
 
 #Con: d6
 
-#Int: d12
+#Int: d6
 
-#Cha?: d12
+#Cha?: d6
 
 #move speed 8
 
 #hp total 340?
+
+#Skills: 6 points in literacy, 10 points in dancing (replace those with athletics and shit, but you'll always know he just dances)
 
 #Hidden dice roles --> attempting to get below the "dc" - average dc would be 450, d4s should be super rare, with d6s the best dice players can get
 
 #dice system might need rework, am thinking of how to do it
 
 #could be a dice pool of just d6s, different races get one ability to be a "d7"
+
+#Every "natural" ability is a pool of d6s, starting at 100 d6s, every skill point in a specific skill adds 10 to the dice pool, while different "modifiers" remove dice from the dice pool. trying to hit a certain target, 200 for very easy skills, 300 for pretty damn easy skills, 350 for easy skills, 400 for easy-medium skills, 450 for medium skills.
+
+#Every race has one d7 in one "natural" skill subset, humans probably don't, instead get 2 extra skill points per level starting at level 1 (this will need balancing, one of these is definitely better than the other)
