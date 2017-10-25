@@ -62,4 +62,6 @@
 
 #Every "natural" ability is a pool of d6s, starting at 100 d6s, every skill point in a specific skill adds 10 to the dice pool, while different "modifiers" remove dice from the dice pool. trying to hit a certain target, 200 for very easy skills, 300 for pretty damn easy skills, 350 for easy skills, 400 for easy-medium skills, 450 for medium skills.
 
-#Every race has one d7 in one "natural" skill subset, humans probably don't, instead get 2 extra skill points per level starting at level 1 (this will need balancing, one of these is definitely better than the other)
+#Every race has one d7 in one "natural" skill subset, humans probably don't, instead get 2 extra skill points per level starting at level 1 (this will need balancing, one of these is definitely better than the other) --- or different races have one d5 and one d7 in two stats, while humans have d6s across the board.
+
+#No classes, only based on what skills and attributes you focus on, sort of PoE maybe
