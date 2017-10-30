@@ -1,16 +1,34 @@
 defmodule Quaff.QMap do
-  defstruct tree: :mt, xmax: 0, ymax: 0
-
-  alias Quaff.BT, as: BT
+  alias Quaff.QT, as: QT
   alias Quaff.QMap, as: QMap
 
-  def new(tiles, xmax, ymax), do: %QMap{tree: BT.new(tiles), xmax: xmax, ymax: ymax}
+  defstruct tree: QT.new([[nil]]), ymax: 0, xmax: 0
 
-  def set(%QMap{tree: bt, xmax: xmax}, x, y, square) do
-    %QMap{tree: BT.set(bt, xmax * y + x, square), xmax: xmax}
+
+  def new(tiles, xmax, ymax), do: %QMap{tree: QT.new(tiles), xmax: xmax, ymax: ymax}
+
+  def set(qmap, {y, x}, square) do
+    %QMap{tree: qt, ymax: ymax, xmax: xmax} = qmap
+    if y < 0 or y > ymax or x < 0 or x > xmax do
+      :err
+    else
+      %QMap{qt | tree: QT.set(qt, {y, x}, square)}
+    end
   end
 
-  def at(%QMap{tree: bt, xmax: xmax}, x, y) do
-    BT.at(bt, xmax * y + x)
+  def set!(qmap, {y, x}, square) do
+    %QMap{qmap | tree: QT.set(qmap.tree, {y, x}, square)}
+  end
+
+  def at(%QMap{tree: qt, ymax: ymax, xmax: xmax}, {y, x}) do
+    if y < 0 or y > ymax or x < 0 or x > xmax do
+      :err
+    else
+      {:ok, QT.at(qt, {y, x})}
+    end
+  end
+
+  def at!(%QMap{tree: qt}, {y, x}) do
+    QT.at(qt, {y, x})
   end
 end

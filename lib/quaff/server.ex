@@ -12,7 +12,7 @@ defmodule Quaff.Server do
   end
 
   defmodule State do
-    defstruct players: %{}, map: QMap.new(List.duplicate(%Tile{}, 100*100), 100,100)
+    defstruct players: %{}, map: QMap.new([[%Tile{}]], 1, 1)
   end
 
   def broadcast(state) do
@@ -31,8 +31,11 @@ defmodule Quaff.Server do
     %Player{ x: max(0, min(xmax, x + dx)), y: max(0, min(ymax, y + dy)) }
   end
 
-  def start_link(xmax, ymax) do
-    GenServer.start_link(__MODULE__, %State{map: QMap.new(List.duplicate(%Tile{}, xmax*ymax), xmax, ymax)}, name: __MODULE__)
+  def start_link(ydim, xdim) do
+    GenServer.start_link(
+      __MODULE__,
+      %State{map: QMap.new(List.duplicate(List.duplicate(%Tile{}, xdim), ydim), ydim - 1, xdim - 1)},
+      name: __MODULE__)
   end
 
   def init(x,y) do
@@ -69,7 +72,7 @@ defmodule Quaff.Server do
     {:reply, :ok, new_state}
   end
 
-  def handle_call(:status, {from, _}, state) do
+  def handle_call(:status, {_, _}, state) do
     {:reply, state, state}
   end
 end
