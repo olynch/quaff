@@ -65,3 +65,12 @@
 #Every race has one d7 in one "natural" skill subset, humans probably don't, instead get 2 extra skill points per level starting at level 1 (this will need balancing, one of these is definitely better than the other) --- or different races have one d5 and one d7 in two stats, while humans have d6s across the board.
 
 #No classes, only based on what skills and attributes you focus on, sort of PoE maybe
+
+
+
+Basic combat system:
+
+quick melee attack: 2 ticks to complete, must be adjacent- hits 3 squares in arc? 2 + str roll damage
+quick ranged attack: 3 ticks to complete, range of 7 squares 1.5 + dex roll damage
+magic-missile: 4 ticks to complete, range of 8 squares, 2 + mgc roll damage
+fireball: 7 ticks to complete, range of 7 squares, aoe of 9 total squares? 4 + magic roll damage at center, minus one per aoe out
