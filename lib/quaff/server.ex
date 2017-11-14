@@ -6,10 +6,7 @@ defmodule Quaff.Server do
   use GenServer
   alias Quaff.Player, as: Player
   alias Quaff.QMap, as: QMap
-
-  defmodule Tile do
-    defstruct seethrough: true, passable: true, char: ?.
-  end
+  alias Quaff.Tile, as: Tile
 
   defmodule State do
     defstruct players: %{}, map: QMap.new([[%Tile{}]], 1, 1)

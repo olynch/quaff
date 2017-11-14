@@ -71,5 +71,43 @@ defmodule Quaff.QT do
   def to_list(%QT{tl: tl, tr: tr, bl: bl, br: br}) do
     Enum.concat(hcombine(to_list(tl), to_list(tr)), hcombine(to_list(bl), to_list(br)))
   end
+
+  # returns a list of tuples {elem, pos} in the intersection of (the rectangle with top-left corner tlcy, tlcx
+  # and bottom-right corner brcy brcx) and the tree, where the top leftmost element of the tree is 
+  # assumed to be a coordinate 0,0. The tuples are in unspecified order.
+  def iter_rect(qt, tlc, brc) do
+    iter_rect_pos(qt, tlc, brc, {0,0}, [])
+  end
+
+  def iter_rect_pos(%Leaf{val: val}, {tlcy, tlcx}, {brcy, brcx}, {tly, tlx}, rest) do
+    if tly >= tlcy and tlx >= tlcx and tlx <= brcy and tly <= brcx do
+      [{val, {tly, tlx}} | rest]
+    else
+      rest
+    end
+  end
+
+  def iter_rect_pos(
+    %QT{tl: tl, tr: tr, bl: bl, br: br, height: height},
+    {tlcy, tlcx}, {brcy, brcx}, {tly, tlx}, rest) do
+      tlc = {tlcy, tlcx}
+      brc = {brcy, brcx}
+      dim = 1 <<< height
+      subdim = 1 <<< (height - 1)
+      # if the entire tree is outside of the rectangle, don't do anything
+      if tlcy >= tly + dim or tlcx >= tlx + dim or brcy < tly or brcx < tlx do
+        rest
+      else
+        iter_rect_pos(
+          tl, tlc, brc, {tly, tlx}, iter_rect_pos(
+            tr, tlc, brc, {tly, tlx + subdim}, iter_rect_pos(
+              bl, tlc, brc, {tly + subdim, tlx}, iter_rect_pos(
+                br, tlc, brc, {tly + subdim, tlx + subdim}, rest
+              )
+            )
+          )
+        )
+      end
+  end
 end
 
