@@ -1,9 +1,9 @@
 # Sample Stat Ideas
-Basic Stats --> determine the "die type" used in different situations, d4 through d12
+Basic Stats --> percentage based system
 
 These stats will include the basic STR DEX CON INT, more to be decided depending
 
-These might be filtered through a second level of stat --> this determines how many dice are rolled in each situation
+These might be filtered through a second level of stat --> this will be small bonuses to the given percentage
 
 small numbers might be the way to go, where every roll succeeds if below a certain number --> this way, all dice have a change
  of succeeding, while if trying to reach a high number dice become useless. This way all die types have a chance to succeed.
@@ -12,8 +12,7 @@ small numbers might be the way to go, where every roll succeeds if below a certa
 
 subcategories will include things like athletics, acrobatics, investigation -- could be left up to specific campaigns
 
-with a get less than number style of rolling, these will subtract a certain number of dice from the die pool being rolled, meaning the
- the player is more likely to achieve a successful role.
+These provide small flat bonuses depending on how many points in that skill you have (maybe based on the proportion of points if we want to force specialization)
 
 
 # Second Option for stat meanings --> more videogame based than tabletop based
@@ -30,7 +29,7 @@ CONCENTRATION -> Magic accuracy... need a synonym for this.
 
 does missing attacks add tension or just not feel good? - will test (XCOM/Fallout vs action rpg/hack and slash)
 
-Average dice roll counts to remember per die type::: d4=250 d6=350 d8=450 d10=550 d12=650 large deviation between these, will look at this later, might focus less on die type and more on die pool for large pools of dice -- or could be interesting way to create "focused" characters. -- partially resolved with "getting below a number" style.
+percent chance of failure when attacking is not a case of missing, but chance that the enemy will reposte and damage you in return. For spells you take some damage but cast nevertheless, for ranged maybe you miss depending on balance.
 
 Dice roll standard deviations:
 
@@ -55,15 +54,14 @@ d12 = sqrt((((12 - 1 + 1)^2 - 1)/12)/100) = 0.34
 
 "Marcus Marcy-Marc" the human
 
-Str: d6
+Str: 18
+Dex: 13
 
-Dex: d6
+Con: 16
 
-Con: d6
+Int: 8
 
-Int: d6
-
-Cha?: d6
+Cha?: 12
 
 move speed 8
 
@@ -73,13 +71,10 @@ Skills: 6 points in literacy, 10 points in dancing (replace those with athletics
 
 # Hidden dice roles --> attempting to get below the "dc" - average dc would be 450, d4s should be super rare, with d6s the best dice players can get
 
-dice system might need rework, am thinking of how to do it
-
-could be a dice pool of just d6s, different races get one ability to be a "d7"
-
-Every "natural" ability is a pool of d6s, starting at 100 d6s, every skill point in a specific skill adds 10 to the dice pool, while different "modifiers" remove dice from the dice pool. trying to hit a certain target, 200 for very easy skills, 300 for pretty damn easy skills, 350 for easy skills, 400 for easy-medium skills, 450 for medium skills.
-
-Every race has one d7 in one "natural" skill subset, humans probably don't, instead get 2 extra skill points per level starting at level 1 (this will need balancing, one of these is definitely better than the other) --- or different races have one d5 and one d7 in two stats, while humans have d6s across the board.
+natural skill points dictate the base percentages, each point is worth 5% so 0=0% 1=5% 2=10% ... 18=90% 19=95% 20=100%
+"artificial" skill points, unrelated to base attributes, increase the percentage change by some flat bonus.
+the percentage of success is lowered depending on the DC of what the player is trying to do (set by DM)
+if against another thing with stats, the skills are crosschecked in a table, the flat bonuses from both parties are also applied
 
 No classes, only based on what skills and attributes you focus on, sort of PoE maybe
 
@@ -87,7 +82,7 @@ No classes, only based on what skills and attributes you focus on, sort of PoE m
 
 Basic combat system:
 
-quick melee attack: 2 ticks to complete, must be adjacent- hits 3 squares in arc? 2 + str roll damage
-quick ranged attack: 3 ticks to complete, range of 7 squares 1.5 + dex roll damage
-magic-missile: 4 ticks to complete, range of 8 squares, 2 + mgc roll damage
-fireball: 7 ticks to complete, range of 7 squares, aoe of 9 total squares? 4 + magic roll damage at center, minus one per aoe out
+quick melee attack: 2 ticks to complete, must be adjacent- hits 3 squares in arc? 2 + str bonus damage
+quick ranged attack: 3 ticks to complete, range of 7 squares 1.5 + dex bonus damage
+magic-missile: 4 ticks to complete, range of 8 squares, 2 + mgc bonus damage
+fireball: 7 ticks to complete, range of 7 squares, aoe of 9 total squares? 4 + magic bonus damage at center, minus one per aoe out
