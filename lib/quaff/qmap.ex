@@ -35,9 +35,14 @@ defmodule Quaff.QMap do
     QT.iter_rect(qt, tlc, brc)
   end
 
-  def disp(qmap, tlc, brc, {offsety, offsetx}) do
-    for {tile, {y,x}} <- iter_rect(qmap, tlc, brc) do
-      :cecho.mvaddch(y + offsety, x + offsetx, tile.char)
+  def disp(qmap, {offsety, offsetx}) do
+    for y <- 0..(qmap.ydim - 1) do
+      for x <- 0..(qmap.xdim - 1) do
+        # :cecho.move(y + offsety, x + offsetx)
+        # :cecho.addch(QMap.at!(qmap, {y,x}).char)
+        # :cecho.refresh()
+        Termbox.change_cell(x + offsetx, y + offsety, QMap.at!(qmap, {y,x}).char, 0, 0)
+      end
     end
   end 
 end

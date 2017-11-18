@@ -21,7 +21,6 @@ defmodule QuaffServer.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:cecho, git: "https://github.com/mazenharake/cecho.git", tag: "0.5.1", app: false}
     ]
   end
 end

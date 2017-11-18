@@ -18,14 +18,14 @@ defmodule Quaff.Server do
     end
   end
 
-  def move(%Player{x: x, y: y}, direction, xmax, ymax) do
+  def move(%Player{x: x, y: y}, direction, ydim, xdim) do
     {dx, dy} = case direction do
       :up -> {0, -1}
       :down -> {0, 1}
       :left -> {-1, 0}
       :right -> {1, 0}
     end
-    %Player{ x: max(0, min(xmax, x + dx)), y: max(0, min(ymax, y + dy)) }
+    %Player{ x: max(0, min(xdim - 1, x + dx)), y: max(0, min(ydim - 1, y + dy)) }
   end
 
   def start_link(ydim, xdim) do
@@ -64,8 +64,8 @@ defmodule Quaff.Server do
   end
 
   def handle_call({:move, direction}, {from, _}, state) do
-    new_state = %State{state | players: Map.update(state.players, from, %Player{}, &(move(&1, direction, state.xmax, state.ymax)))}
-    spawn(QuaffServer, :broadcast, [new_state])
+    new_state = %State{state | players: Map.update(state.players, from, %Player{}, &(move(&1, direction, state.map.xdim, state.map.ydim)))}
+    spawn(Quaff.Server, :broadcast, [new_state])
     {:reply, :ok, new_state}
   end
 
