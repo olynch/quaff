@@ -86,3 +86,24 @@ quick melee attack: 2 ticks to complete, must be adjacent- hits 3 squares in arc
 quick ranged attack: 3 ticks to complete, range of 7 squares 1.5 + dex bonus damage
 magic-missile: 4 ticks to complete, range of 8 squares, 2 + mgc bonus damage
 fireball: 7 ticks to complete, range of 7 squares, aoe of 9 total squares? 4 + magic bonus damage at center, minus one per aoe out
+
+Ticks should be downtime after casting spell as opposed to uptime before casting spell in order to make sure people can't just move to avoid every attack- this will also simulate mana, powerful spells need more downtime, dodgeable ones will launch projectiles etc
+#card drafts
+
+Cleaving Strike
+3 ticks
+deals 3 + str bonus damage in an arc in front of you (4 squares)
+
+Timelock
+2 ticks
+delays enemies current action by 3 ticks
+
+Fireball
+5 ticks
+projectile speed 2 sq per tick
+4x4 aoe 4+ magic bonus damage at center, minus 1 per square out
+
+
+
+
+
