@@ -1,3 +1,13 @@
+Narrative based game: pool of say 24? abilities, each which applies an effect/has a use, classes are combinations of any 4 of these abilities, decided upon by dm of individual games? so we just give them a pool of sample abilities, and they can figure out what seems interesting and fits their world.
+sample abilities:
+Cleave: apply "Bleeding" to characters in arc of 4 in front of you
+Bash: apply "Stunned" to target character
+Frost Snap: apply "Frozen" to target character or object
+Inferno: apply "Burning" to target area and all characters in it
+Mend: apply "Recover" to target character or object
+
+where each effect does something? so frozen either freezes an object in place/freezes water, or freezes a character in place and stops their turn, stunned stops a characters turn for longer, recover removes effects from a character/object
+
 # Sample Stat Ideas
 Basic Stats --> percentage based system
 
