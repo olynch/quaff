@@ -7,31 +7,56 @@ defmodule Quaff.Server do
   alias Quaff.Player, as: Player
   alias Quaff.QMap, as: QMap
   alias Quaff.Tile, as: Tile
+  alias Quaff.Update, as: Update
 
   defmodule State do
     defstruct players: %{}, map: QMap.new([[%Tile{}]], 1, 1)
   end
 
-  def broadcast(state) do
+  def make_update(state, resend_map) do
+    %Update{ players: state.players, map: (if resend_map, do: {:ok, state.map}, else: nil) }
+  end
+
+  def broadcast(state, resend_map) do
     for pid <- Map.keys(state.players) do
-      send pid, { :update, Map.values(state.players) }
+      send pid, { :update, make_update(state, resend_map) }
     end
   end
 
-  def move(%Player{x: x, y: y}, direction, ydim, xdim) do
-    {dx, dy} = case direction do
-      :up -> {0, -1}
-      :down -> {0, 1}
-      :left -> {-1, 0}
-      :right -> {1, 0}
+  def move(pid, direction, state) do
+    case state.players[pid] do
+      nil -> state
+      p ->
+        %Player{y: y, x: x} = p
+        {dy, dx} = case direction do
+          :up -> {-1, 0}
+          :down -> {1, 0}
+          :left -> {0, -1}
+          :right -> {0, 1}
+          :ul -> {-1, -1}
+          :ur -> {-1, 1}
+          :dl -> {1, -1}
+          :dr -> {1, 1}
+        end
+        {newy, newx} = {y + dy, x + dx}
+        case QMap.at(state.map, {newy, newx}) do
+          {:ok, %Tile{ passable: true }} -> 
+            case Enum.find(Map.to_list(state.players), &(elem(&1, 1).y == newy and elem(&1, 1).x == newx)) do
+              nil -> %State{ state | players: Map.replace(state.players, pid, %Player{ p | x: newx, y: newy}) }
+              {otherpid, otherp} -> 
+                %State{ state |
+                  players: Map.replace(state.players, otherpid, %Player{ otherp | hp: otherp.hp - p.attack }) }
+            end
+          {:ok, %Tile{ passable: false }} -> state
+          :err -> state
+        end
     end
-    %Player{ x: max(0, min(xdim - 1, x + dx)), y: max(0, min(ydim - 1, y + dy)) }
   end
 
-  def start_link(ydim, xdim) do
+  def start_link(map_file) do
     GenServer.start_link(
       __MODULE__,
-      %State{map: QMap.new(List.duplicate(List.duplicate(%Tile{}, xdim), ydim), ydim - 1, xdim - 1)},
+      %State{map: Quaff.QMap.Parser.parse_qmap(map_file)},
       name: __MODULE__)
   end
 
@@ -53,23 +78,23 @@ defmodule Quaff.Server do
 
   def handle_call({:init, x, y}, {from, _}, state) do
     new_state = %State{state | players: Map.put(state.players, from, %Player{x: x, y: y})}
-    spawn(__MODULE__, :broadcast, [new_state])
-    {:reply, Map.values(new_state.players), new_state}
+    spawn(__MODULE__, :broadcast, [new_state, false])
+    {:reply, make_update(new_state, true), new_state}
   end
 
   def handle_call(:drop, {from, _}, state) do
     new_state = %State{state | players: Map.delete(state.players, from)}
-    spawn(__MODULE__, :broadcast, [new_state])
+    spawn(__MODULE__, :broadcast, [new_state, false])
     {:reply, :ok, new_state}
   end
 
   def handle_call({:move, direction}, {from, _}, state) do
-    new_state = %State{state | players: Map.update(state.players, from, %Player{}, &(move(&1, direction, state.map.xdim, state.map.ydim)))}
-    spawn(Quaff.Server, :broadcast, [new_state])
+    new_state = move(from, direction, state)
+    spawn(Quaff.Server, :broadcast, [new_state, false])
     {:reply, :ok, new_state}
   end
 
   def handle_call(:status, {_, _}, state) do
-    {:reply, state, state}
+    {:reply, make_update(state, true), state}
   end
 end

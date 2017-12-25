@@ -6,7 +6,6 @@ in
   stdenv.mkDerivation {
     name = "quaff";
     buildInputs = with pkgs; [
-      ncurses
       elixir
       erlang
     ];

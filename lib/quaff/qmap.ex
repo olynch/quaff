@@ -1,10 +1,19 @@
 defmodule Quaff.QMap do
   alias Quaff.QT, as: QT
   alias Quaff.QMap, as: QMap
+  alias Quaff.Tile, as: Tile
 
   defstruct tree: QT.new([[nil]]), ydim: 1, xdim: 1
 
-  def new(tiles, xdim, ydim), do: %QMap{tree: QT.new(tiles), xdim: xdim, ydim: ydim}
+  def new(tiles, xdim, ydim) do
+    # round up xdim and ydim to closest multiple of 2
+    xdim2 = round(:math.pow(2, Float.ceil(:math.log2(xdim))))
+    ydim2 = round(:math.pow(2, Float.ceil(:math.log2(ydim))))
+    tiles2 = Enum.concat(
+      Enum.map(tiles, &(Enum.concat(&1, List.duplicate(%Tile{}, xdim2 - xdim)))),
+      List.duplicate(List.duplicate(%Tile{}, xdim2), ydim2 - ydim))
+    %QMap{tree: QT.new(tiles2), xdim: xdim, ydim: ydim}
+  end
 
   def set(qmap, {y, x}, square) do
     %QMap{tree: qt, ydim: ydim, xdim: xdim} = qmap
@@ -38,9 +47,6 @@ defmodule Quaff.QMap do
   def disp(qmap, {offsety, offsetx}) do
     for y <- 0..(qmap.ydim - 1) do
       for x <- 0..(qmap.xdim - 1) do
-        # :cecho.move(y + offsety, x + offsetx)
-        # :cecho.addch(QMap.at!(qmap, {y,x}).char)
-        # :cecho.refresh()
         Termbox.change_cell(x + offsetx, y + offsety, QMap.at!(qmap, {y,x}).char, 0, 0)
       end
     end

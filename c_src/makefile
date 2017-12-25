@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall -fpic
 # LIBS=-L../external/termbox/build/src
-INCLUDE=-I../external/termbox/src -I/nix/store/fxc014ywcx08dbn94rlijp3fn9qxzy2n-erlang-19.3/lib/erlang/erts-8.3/include
+INCLUDE=-I../external/termbox/src -I/nix/store/gq5rav4bjk1521gmm64vwcj5biimh9vl-erlang-19.3.6.4/lib/erlang/erts-8.3.5.3/include
 STATIC_LIBS=../external/termbox/build/src/libtermbox.a
 
 libextermbox.so: extermbox.o
