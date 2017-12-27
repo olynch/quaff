@@ -6,7 +6,9 @@ in
   stdenv.mkDerivation {
     name = "quaff";
     buildInputs = with pkgs; [
-      elixir
-      erlang
+      beam.packages.erlangR20.elixir
+      beam.packages.erlangR20.erlang
     ];
+
+    shellHook = "export ERL_AFLAGS='-kernel shell_history enabled'";
   }
